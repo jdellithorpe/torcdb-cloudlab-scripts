@@ -1,17 +1,42 @@
 #!/bin/bash
 
+echo "Checking for slow machines... "
+
 NUM_RCNODES=`cat /local/parameters.cfg | grep "NUM_RCNODES" | awk '{print $2}'`
 
-hostArray=()
 for i in $(seq 1 $NUM_RCNODES)
 do
-  host=$(printf "rc%02d" $i)
-  if [ -z "$hostList" ]
+  host=$(printf "rc%02d-ctrl" $i)
+  if [ -z "$rcList" ]
   then
-    hostList="$host"
+    rcList="$host"
   else
-    hostList="$hostList","$host"
+    rcList="$rcList","$host"
   fi
 done
 
-pdsh -R ssh -w ${hostList} 'perf bench sched all | grep "Total time" | head -n 1' | awk '{if ($4 > 0.14) {slowness=1; print $1" Seems slow: "$4" > 0.14"}} END {if (slowness) {print "Slow servers detected..."} else {print "All servers seem healthy!"}}'
+OUTPUT=`pdsh -R ssh -w ${rcList} 'perf bench sched all | grep "Total time" | head -n 1' | awk '{if ($4 > 0.13) {print $1" Seems slow: "$4" > 0.13"}}'`
+
+if [ -z "$OUTPUT" ]
+then
+  echo "Passed!"
+  echo
+else
+  echo "Failed! (See below)"
+  echo "$OUTPUT"
+  echo
+fi
+
+echo "Checking that DPDK has been installed... "
+
+OUTPUT=`pdsh -R ssh -w ${rcList} 'cat /MLNX_OFED_LINUX-3.4-1.0.0.0-ubuntu16.04-x86_64/install.log | grep --count "Installation passed successfully"' 2>1 | awk '{if (!$2) {print "MLNX driver not installed successfully"}}'`
+
+if [ -z "$OUTPUT" ]
+then
+  echo "Passed!"
+  echo
+else
+  echo "Failed! (See below)"
+  echo "$OUTPUT"
+  echo
+fi
