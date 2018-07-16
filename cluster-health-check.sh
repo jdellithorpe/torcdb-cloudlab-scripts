@@ -15,7 +15,7 @@ do
   fi
 done
 
-OUTPUT=`pdsh -R ssh -w ${rcList} 'perf bench sched all | grep "Total time" | head -n 1' | awk '{if ($4 > 0.13) {print $1" Seems slow: "$4" > 0.13"}}'`
+OUTPUT=`pdsh -R ssh -w ${rcList} 'perf bench sched all | grep "Total time" | head -n 1' | awk '{if ($4 > 0.2) {print $1" Seems slow: "$4" > 0.2"}}'`
 
 if [ -z "$OUTPUT" ]
 then
