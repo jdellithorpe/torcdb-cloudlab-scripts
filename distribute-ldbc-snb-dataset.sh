@@ -27,6 +27,8 @@ then
   echo "                  to.  Will create directories social_network/ and "
   echo "                  social_network_supplementary_files/ in this "
   echo "                  directory."
+
+  exit
 fi
 
 DATASET_DIR=$1
