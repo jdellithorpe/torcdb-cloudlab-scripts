@@ -1,16 +1,4 @@
 #!/bin/bash
-#
-# Usage: Divide up LDBC SNB dataset files N ways and copy partitions to each of 
-#         N servers' local disk.
-# 
-# distribute-ldbc-snb-dataset.sh DATASET_DIR SERVER_LIST REMOTE_DIR
-#     DATASET_DIR     LDBC SNB dataset directory containing social_network/ and 
-#                     social_network_supplementary_files/ directories.
-#     SERVER_LIST     List of hostnames of the servers to copy the dataset to,
-#                     one per line
-#     REMOTE_DIR      Local disk directory on remote host to copy files to. Will
-#                     create directories social_network/ and
-#                     social_network_supplementary_files/ in this directory
 
 if [[ $# != 3 ]]
 then
