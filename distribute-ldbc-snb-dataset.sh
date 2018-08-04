@@ -46,8 +46,8 @@ done < ${SERVER_LIST}
 
 NUM_SERVERS=${#hosts[@]}
 
-file_listing=$(for file in $(find ${DATASET_DIR}/social_network ${DATASET_DIR}/social_network_supplementary_files -name '*.csv' | grep -v 'social_network/person_[0-9]*_[0-9]*.csv' | grep -v 'social_network/person_\(email\|speaks\|knows\).*.csv'); do du $file; done | sort -rn | awk '{print $2}')
-size_listing=$(for file in $(find ${DATASET_DIR}/social_network ${DATASET_DIR}/social_network_supplementary_files -name '*.csv' | grep -v 'social_network/person_[0-9]*_[0-9]*.csv' | grep -v 'social_network/person_\(email\|speaks\|knows\).*.csv'); do du $file; done | sort -rn | awk '{print $1}')
+file_listing=$(for file in $(find ${DATASET_DIR}/social_network ${DATASET_DIR}/social_network_supplementary_files -name '*.csv' | grep -v 'social_network/person_[0-9]*_[0-9]*.csv' | grep -v 'social_network/person_\(email\|speaks\|knows\).*.csv'); do du -b $file; done | sort -rn | awk '{print $2}')
+size_listing=$(for file in $(find ${DATASET_DIR}/social_network ${DATASET_DIR}/social_network_supplementary_files -name '*.csv' | grep -v 'social_network/person_[0-9]*_[0-9]*.csv' | grep -v 'social_network/person_\(email\|speaks\|knows\).*.csv'); do du -b $file; done | sort -rn | awk '{print $1}')
 
 file_array=()
 for file in $file_listing
