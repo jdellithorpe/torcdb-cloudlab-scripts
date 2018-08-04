@@ -28,7 +28,7 @@ while read -r hostname
 do
   if [[ ! $hostname =~ ^#.* ]]
   then
-    hosts=("${hosts[@]}" "$hostname")
+    hosts+=($hostname)
   fi
 done < ${SERVER_LIST}
 
