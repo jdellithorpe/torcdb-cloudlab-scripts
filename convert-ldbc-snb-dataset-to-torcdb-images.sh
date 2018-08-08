@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $# != 2 ]]
+if [[ $# != 3 ]]
 then
   echo "Take LDBC SNB dataset files distributed across a set of servers and "
   echo "convert them to TorcDB RAMCloud image files in parallel."
