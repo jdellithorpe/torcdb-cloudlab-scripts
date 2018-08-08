@@ -37,4 +37,5 @@ NUM_SERVERS=${#hosts[@]}
 # Prep maven exec plugin
 mvn exec:java -Dexec.mainClass="net.ellitron.ldbcsnbimpls .interactive.torc.util.ImageMaker" -Dexec.args="" > /dev/null 2>&1
 
-echo ${hosts[@]} | pdsh -R ssh -w - "cd ${SCRIPTPATH}; mvn exec:java -Dexec.mainClass=\"net.ellitron.ldbcsnbimpls.interactive.torc.util.ImageMaker\" -Dexec.args=\"--mode all --outputDir ${REMOTE_DIR} --noLabelList --graphName ${GRAPH_NAME} --numThreads 4 --reportInt 2 --reportFmt LFDT ${REMOTE_DIR}/social_network ${REMOTE_DIR}/social_network_supplementary_files\""
+echo ${hosts[@]} | pdsh -R ssh -w - "mkdir ${REMOTE_DIR}/image_files"
+echo ${hosts[@]} | pdsh -R ssh -w - "cd ${SCRIPTPATH}; mvn exec:java -Dexec.mainClass=\"net.ellitron.ldbcsnbimpls.interactive.torc.util.ImageMaker\" -Dexec.args=\"--mode all --outputDir ${REMOTE_DIR}/image_files --noLabelList --graphName ${GRAPH_NAME} --numThreads 4 --reportInt 2 --reportFmt LFDT ${REMOTE_DIR}/social_network ${REMOTE_DIR}/social_network_supplementary_files\""
