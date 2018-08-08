@@ -39,3 +39,4 @@ mvn exec:java -Dexec.mainClass="net.ellitron.ldbcsnbimpls .interactive.torc.util
 
 echo ${hosts[@]} | pdsh -R ssh -w - "mkdir ${REMOTE_DIR}/image_files"
 echo ${hosts[@]} | pdsh -R ssh -w - "cd ${SCRIPTPATH}; mvn exec:java -Dexec.mainClass=\"net.ellitron.ldbcsnbimpls.interactive.torc.util.ImageMaker\" -Dexec.args=\"--mode all --outputDir ${REMOTE_DIR}/image_files --noLabelList --graphName ${GRAPH_NAME} --numThreads 4 --reportInt 2 --reportFmt LFDT ${REMOTE_DIR}/social_network ${REMOTE_DIR}/social_network_supplementary_files\""
+echo ${hosts[@]} | pdsh -R ssh -w - "cd ${REMOTE_DIR}/image_files; for file in \$(ls *.img); do imageName=\${file%.img}; part=\${imageName%%.*}; tableName=\${imageName#\${part}.}; mkdir -p \${tableName}; mv \${file} ./\${tableName}/\${part}.img; done"
