@@ -10,7 +10,7 @@ then
   echo "merged at the end so that the final result is each server has a single"
   echo "consolidated tablet image file, which is then compressed with gzip."
   echo "" 
-  echo "Usage: shuffle-merge-and-compress-ramcloud-tablet-images.sh SERVER_LIST REMOTE_DIR N"
+  echo "Usage: shuffle-merge-and-compress-ramcloud-tablet-images.sh SERVER_LIST REMOTE_DIR"
   echo "  SERVER_LIST      List of hostnames of the servers that have "
   echo "                   torcdb tablet image files, one per line."
   echo "  REMOTE_DIR       Location of the images files on the remote "
