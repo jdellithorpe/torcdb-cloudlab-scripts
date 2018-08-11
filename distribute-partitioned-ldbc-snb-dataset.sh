@@ -26,6 +26,8 @@ N=$2
 SERVER_LIST=$3
 REMOTE_DIR=$4
 
+CONCURRENT_TRANSFERS=3
+
 # Read in the server list as an array
 while read -r hostname
 do
@@ -43,15 +45,32 @@ then
   exit
 fi
 
+pids=()
 for (( i = 0; i < $N; i++ ))
 do
-  echo -n "Copying files to ${hosts[$i]}... "
+  if (( ${#pids[@]} >= $CONCURRENT_TRANSFERS ))
+  then
+    wait ${pids[0]}
+    newpids=()
+    for (( j = 1; j < ${#pids[@]}; j++ ))
+    do
+      newpids+=("${pids[$j]}")
+    done
+    pids=("${newpids[@]}")
+  fi
+
+  echo "Copying files to ${hosts[$i]}... "
   file_listing=$(find ${DATASET_DIR}/social_network ${DATASET_DIR}/social_network_supplementary_files -name '*.csv' | grep -v 'social_network/person_[0-9]*_[0-9]*.csv' | grep -v 'social_network/person_\(email\|speaks\|knows\).*.csv' | grep "${i}_0.csv")
   file_array=()
   for file in $file_listing
   do 
     file_array+=($file)
   done
-  tar -c "${file_array[@]}" 2>/dev/null | ssh ${hosts[$i]} "tar -xvf - -C ${REMOTE_DIR}" >/dev/null
-  echo "Done!"
+  ( tar -c "${file_array[@]}" 2>/dev/null | ssh ${hosts[$i]} "tar -xvf - -C ${REMOTE_DIR}" >/dev/null; echo "Files copied to ${hosts[$i]}!" ) &
+  pids+=($!)
+done
+
+for pid in ${pids[@]}
+do
+  wait $pid
 done
