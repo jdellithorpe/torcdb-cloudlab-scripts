@@ -50,29 +50,38 @@ N=$(ls ${DATASET_DIR}/social_network/ | grep comment_hasCreator_person | awk -F'
 
 if (( NUM_SERVERS < N ))
 then
-  echo "ERROR: Need ${N} servers but only ${NUM_SERVER} in ${SERVER_LIST}."
+  echo "ERROR: Need ${N} servers but only ${NUM_SERVERS} in ${SERVER_LIST}."
   exit
 fi
 
+# Create a file that is only the servers that we need
+rm -f ${SERVER_LIST}.tmp
+for (( i = 0; i < N; i++ ))
+do
+  echo ${hosts[$i]} >> ${SERVER_LIST}.tmp
+done
+
 echo "Distributing files to servers' local disk..."
-./distribute-partitioned-ldbc-snb-dataset.sh ${DATASET_DIR} ${N} ${SERVER_LIST} ${REMOTE_DIR}
+./distribute-partitioned-ldbc-snb-dataset.sh ${DATASET_DIR} ${N} ${SERVER_LIST}.tmp ${REMOTE_DIR}
 echo 
 
 echo "Converting dataset files to TorcDB images..."
-./convert-ldbc-snb-dataset-to-torcdb-images.sh ${SERVER_LIST} ${REMOTE_DIR}/${DATASET_DIR} ${GRAPH_NAME}
+./convert-ldbc-snb-dataset-to-torcdb-images.sh ${SERVER_LIST}.tmp ${REMOTE_DIR}/${DATASET_DIR} ${GRAPH_NAME}
 echo 
 
 echo "Dividing images into tablets..."
-./partition-torcdb-images-into-ramcloud-tablets.sh ${RAMCLOUD_UTILS} ${SERVER_LIST} ${REMOTE_DIR}/${DATASET_DIR}/image_files ${N}
+./partition-torcdb-images-into-ramcloud-tablets.sh ${RAMCLOUD_UTILS} ${SERVER_LIST}.tmp ${REMOTE_DIR}/${DATASET_DIR}/image_files ${N}
 echo 
 
 echo "Merging tablets together and compressing them..."
-./shuffle-merge-and-compress-ramcloud-tablet-images.sh ${SERVER_LIST} ${REMOTE_DIR}/${DATASET_DIR}/image_files
+./shuffle-merge-and-compress-ramcloud-tablet-images.sh ${SERVER_LIST}.tmp ${REMOTE_DIR}/${DATASET_DIR}/image_files
 echo
 
 echo "Moving compressed tablets back to CloudLab dataset..."
 mkdir -p ${CL_DATASET_DIR}/tablets-${N}
-./copy-compressed-tablets-to-cloudlab-dataset.sh ${SERVER_LIST} ${REMOTE_DIR}/${DATASET_DIR}/image_files ${CL_DATASET_DIR}/tablets-${N}
+./copy-compressed-tablets-to-cloudlab-dataset.sh ${SERVER_LIST}.tmp ${REMOTE_DIR}/${DATASET_DIR}/image_files ${CL_DATASET_DIR}/tablets-${N}
 echo
 
 echo "Done!"
+
+rm -f ${SERVER_LIST}.tmp
