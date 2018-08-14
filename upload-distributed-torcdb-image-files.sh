@@ -24,7 +24,8 @@ REMOTE_DIR=$2
 RC_COORD_LOC=$3
 RAMCLOUD_UTILS=$4
 
-RC_OPS="--dpdkPort 1"
+# Uncomment tis line to upload datasets using DPDK. 
+#RC_OPS="--dpdkPort 1"
 
 # Read in the server list as an array
 while read -r hostname
