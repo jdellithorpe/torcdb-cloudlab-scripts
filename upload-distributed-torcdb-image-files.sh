@@ -24,6 +24,8 @@ REMOTE_DIR=$2
 RC_COORD_LOC=$3
 RAMCLOUD_UTILS=$4
 
+RC_OPS="--dpdkPort 1"
+
 # Read in the server list as an array
 while read -r hostname
 do
@@ -35,4 +37,4 @@ done < ${SERVER_LIST}
 
 NUM_SERVERS=${#hosts[@]}
 
-echo ${hosts[@]} | pdsh -R ssh -w - "export LD_LIBRARY_PATH=/shome/jde/RAMCloud/obj.jni-updates; cd ${REMOTE_DIR}; for tableName in \$(ls); do for imageFile in \$(ls \${tableName}); do gunzip -c ${tableName}/${imageFile} | ${RAMCLOUD_UTILS}/SnapshotLoader -C ${RC_COORD_LOC} --tableName ${tableName} --serverSpan ${NUM_SERVERS}; done; done"
+echo ${hosts[@]} | pdsh -R ssh -w - "export LD_LIBRARY_PATH=/shome/jde/RAMCloud/obj.jni-updates; cd ${REMOTE_DIR}; for tableName in \$(ls); do for imageFile in \$(ls \${tableName}); do gunzip -c \${tableName}/\${imageFile} | ${RAMCLOUD_UTILS}/SnapshotLoader -C ${RC_COORD_LOC} --tableName \${tableName} --serverSpan ${NUM_SERVERS} ${RC_OPTS}; done; done"
