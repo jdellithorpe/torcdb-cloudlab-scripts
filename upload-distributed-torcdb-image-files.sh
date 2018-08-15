@@ -38,4 +38,8 @@ done < ${SERVER_LIST}
 
 NUM_SERVERS=${#hosts[@]}
 
+graphName=$(ssh ${hosts[0]} "cd ${REMOTE_DIR}; ls | grep vertexTable | sed -e 's/\(.*\)_vertexTable/\1/'")
+
+${RAMCLOUD_UTILS}/TableCreator -C ${RC_COORD_LOC} --tableNames ${graphName}_vertexTable,${graphName}_edgeListTable --serverSpan ${NUM_SERVERS}
+
 echo ${hosts[@]} | pdsh -R ssh -w - "export LD_LIBRARY_PATH=/shome/jde/RAMCloud/obj.jni-updates; cd ${REMOTE_DIR}; for tableName in \$(ls); do for imageFile in \$(ls \${tableName}); do gunzip -c \${tableName}/\${imageFile} | ${RAMCLOUD_UTILS}/SnapshotLoader -C ${RC_COORD_LOC} --tableName \${tableName} --serverSpan ${NUM_SERVERS} ${RC_OPTS}; done; done"
