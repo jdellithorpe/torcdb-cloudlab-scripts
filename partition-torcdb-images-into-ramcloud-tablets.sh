@@ -34,4 +34,12 @@ done < ${SERVER_LIST}
 
 NUM_SERVERS=${#hosts[@]}
 
+if [[ ! -f "${RAMCLOUD_UTILS}/ImageFileHashPartitioner" ]]
+then
+  cd ${RAMCLOUD_UTILS}
+  make ImageFileHashPartitioner
+  cd -
+fi
+
+
 echo ${hosts[@]} | pdsh -R ssh -w - "export LD_LIBRARY_PATH=/shome/jde/RAMCloud/obj.jni-updates; cd ${REMOTE_DIR}; for tableName in \$(ls); do echo \"Partitioning table \${tableName} on host \$(hostname --short)...\"; if [[ \${tableName} =~ vertexTable$ ]]; then tableId=1; elif [[ \${tableName} =~ edgeListTable$ ]]; then tableId=2; else echo \"Do not recognize table name \${tableName} and do not know which tableId to choose. Cowardly exiting!\"; exit; fi; for imageFile in \$(ls \${tableName}); do ${RAMCLOUD_UTILS}/ImageFileHashPartitioner --inputFile \${tableName}/\${imageFile} --tableId \${tableId} --serverSpan ${N} --outputDir \${tableName}; rm \${tableName}/\${imageFile}; done; done"
