@@ -1,5 +1,17 @@
 #!/bin/bash
 
+if [[ $# != 1 ]]
+then
+  echo "Calculate statistics on a LDBC SNB dataset."
+  echo ""
+  echo "Usage: social-network-stats.sh DATASET_DIR"
+  echo "  DATASET_DIR      Location of the dataset. Expects social_network/ "
+  echo "                   and social_network_supplementary_files/ in this "
+  echo "                   directory."
+
+  exit
+fi
+
 DATASET=$1
 
 echo "Size on disk: $(du -hs ${DATASET}/social_network | awk '{print $1}')"
