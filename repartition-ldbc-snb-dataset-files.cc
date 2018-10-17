@@ -29,11 +29,6 @@ int main(int argc, char* argv[]) {
   string output_dir = argv[2];
   int partitions = atoi(argv[3]);
 
-//  string social_network_dir = dataset_dir + "/social_network";
-//  string social_network_supp_dir = dataset_dir + "/social_network_supplementary_files";
-//  string output_social_network_dir = output_dir + "/social_network";
-//  string output_social_network_supp_dir = output_dir + "/social_network_supplementary_files";
-
   // Make the output directories if needed
 //  mkdir(output_social_network_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 //  mkdir(output_social_network_supp_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
