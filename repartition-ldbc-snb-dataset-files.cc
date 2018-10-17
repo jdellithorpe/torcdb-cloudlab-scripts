@@ -29,9 +29,8 @@ int main(int argc, char* argv[]) {
   string output_dir = argv[2];
   int partitions = atoi(argv[3]);
 
-  // Make the output directories if needed
-//  mkdir(output_social_network_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-//  mkdir(output_social_network_supp_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+  // Make the output directory if needed
+  mkdir(output_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
   string entity_types[] {
       "comment", 
