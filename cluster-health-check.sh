@@ -29,7 +29,7 @@ fi
 
 echo "Checking that DPDK has been installed... "
 
-OUTPUT=`pdsh -R ssh -w ${rcList} 'cat /MLNX_OFED_LINUX-3.4-1.0.0.0-ubuntu16.04-x86_64/install.log | grep --count "Installation passed successfully"' 2>1 | awk '{if (!$2) {print "MLNX driver not installed successfully"}}'`
+OUTPUT=`pdsh -R ssh -w ${rcList} 'cat /MLNX_OFED_LINUX-3.4-1.0.0.0-ubuntu16.04-x86_64/install.log | grep --count "Installation passed successfully"' 2>1 | awk '{if (!$2) {print $1" MLNX driver not installed successfully"}}'`
 
 if [ -z "$OUTPUT" ]
 then
