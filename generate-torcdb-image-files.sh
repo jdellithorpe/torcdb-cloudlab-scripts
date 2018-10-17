@@ -46,7 +46,7 @@ done < ${SERVER_LIST}
 
 NUM_SERVERS=${#hosts[@]}
 
-N=$(ls ${DATASET_DIR}/social_network/ | grep comment_hasCreator_person | awk -F'_' 'BEGIN{max=0} {if (max < $4) max = $4} END{print $4 + 1}')
+N=$(ls ${DATASET_DIR}/social_network/ | grep comment_hasCreator_person | awk -F'_' 'BEGIN{max=0} {if (max < $4) max = $4} END{print max + 1}')
 
 if (( NUM_SERVERS < N ))
 then
