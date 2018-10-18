@@ -60,7 +60,7 @@ do
   fi
 
   echo "Copying files to ${hosts[$i]}... "
-  file_listing=$(find ${DATASET_DIR}/social_network ${DATASET_DIR}/social_network_supplementary_files -name '*.csv' | grep -v 'social_network/person_[0-9]*_[0-9]*.csv' | grep -v 'social_network/person_\(email\|speaks\|knows\).*.csv' | grep "${i}_0.csv")
+  file_listing=$(find ${DATASET_DIR}/social_network ${DATASET_DIR}/social_network_supplementary_files -name '*.csv' | grep -v 'social_network/person_[0-9]*_[0-9]*.csv' | grep -v 'social_network/person_\(email\|speaks\|knows\).*.csv' | grep "_${i}_0.csv")
   file_array=()
   for file in $file_listing
   do 
