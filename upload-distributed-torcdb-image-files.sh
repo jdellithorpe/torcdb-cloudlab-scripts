@@ -56,4 +56,4 @@ then
   cd -
 fi
 
-echo ${hosts[@]} | pdsh -R ssh -w - "export LD_LIBRARY_PATH=/shome/jde/RAMCloud/obj.jni-updates; cd ${REMOTE_DIR}; for tableName in \$(ls); do for imageFile in \$(ls \${tableName}); do gunzip -c \${tableName}/\${imageFile} | ${RAMCLOUD_UTILS}/SnapshotLoader -C ${RC_COORD_LOC} --tableName \${tableName} --serverSpan ${NUM_SERVERS} ${RC_OPTS}; done; done"
+echo ${hosts[@]} | pdsh -R ssh -w - "export LD_LIBRARY_PATH=/shome/jde/RAMCloud/obj.torcdb-experiments; cd ${REMOTE_DIR}; for tableName in \$(ls); do for imageFile in \$(ls \${tableName}); do gunzip -c \${tableName}/\${imageFile} | ${RAMCLOUD_UTILS}/SnapshotLoader -C ${RC_COORD_LOC} --tableName \${tableName} --serverSpan ${NUM_SERVERS} ${RC_OPTS}; done; done"
