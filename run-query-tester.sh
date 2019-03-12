@@ -24,18 +24,18 @@ execQuery() {
   while IFS='|' read -ra args
   do 
     eval "echo \"cmd=[query${number} ${query_argfmts[number]} --repeat ${repeat}]\""
-    eval "./bin/QueryTester.sh query${number} ${query_argfmts[number]} --repeat ${repeat}" 2>/dev/null | grep "Percentile"
+    eval "./bin/QueryTester.sh query${number} ${query_argfmts[number]} --repeat ${repeat} --timeUnits=MICROSECONDS" 2>/dev/null | grep -E "Percentile|Min|Max"
   done <<< "$(head -n $[count+1] /datasets/ldbc-snb/${dataset}/substitution_parameters/interactive_${number}_param.txt | tail -n $count)"
 }
 
 # Number of unique queries to execute from dataset.
-query_count=1
+query_count=10
 # Number of times to repeat each query.
-query_repeat_count=1
+query_repeat_count=101
 # The dataset from which to draw query parameters.
-dataset="ldbc_snb_sf0001"
+dataset="ldbc_snb_sf0100"
 
-for ((i = 1; i <= 14; i++))
+for ((i = 1; i <= 2; i++))
 do
   execQuery "${i}" "${query_count}" "${query_repeat_count}" "${dataset}"
 done
