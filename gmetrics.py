@@ -14,24 +14,20 @@ interval = 1
 
 ### Set PCP Config Parameters
 cmdPminfo = "/usr/bin/pminfo -f "
-reDiskIO = re.compile(r'"(\w+)"] value (\d+)\n')	# RegEx To Compute Value
-reMemStat = re.compile(r'value (\d+)\n')	# RegEx To Compute Value
+reSimpleStat = re.compile(r'value (\d+)\n')	# RegEx To Compute Value
 
 ### Set Ganglia Config Parameters
-gangliaMetricType = "uint32"
 ### NOTE: To add a new PCP disk metric, add the appropriate entry to each dictionary item of gangliaMetrics
 ###       Each "vertical" column of the dictionary is a different metric entry group.
-gangliaMetrics = { "pcpmetric": ["disk.dev.read", "disk.dev.write", "disk.dev.blkread", "disk.dev.blkwrite", "mem.vmstat.pgmajfault"], \
-		   "name": ["diskio_readbytes", "diskio_writebytes", "diskio_readblks", "diskio_writeblks", "mem_pgmajfault"], \
-		   "unit": ["Kbytes/s", "Kbytes/s", "Blocks/s", "Blocks/s", "Faults/s"], \
-	   	   "type": ["uint32", "uint32", "uint32", "uint32", "uint32"]}
+gangliaMetrics = { "pcpmetric": ["disk.all.read_bytes", "disk.all.write_bytes", "mem.vmstat.pgpgin", 	"mem.vmstat.pgpgout", 	"mem.vmstat.pgfault", 		"mem.vmstat.pgmajfault", 	"mem.vmstat.pgfree"], \
+		   "name": 	["Disk\ Read\ Bytes",  	"Disk\ Write\ Bytes",   "Page\ Ins", 		"Page\ Outs", 		"Page\ Min+Maj\ Faults",	"Page\ Major\ Faults", 		"Page\ Frees"], \
+		   "unit": 	["bytes/s", 		"bytes/s", 		"Pages/s", 		"Pages/s", 		"Faults/s",			"Faults/s",			"Frees/s"], \
+	   	   "type": 	["uint32", 		"uint32", 		"uint32", 		"uint32", 		"uint32",			"uint32",			"uint32"]}
 cmdGmetric = "/usr/bin/gmetric"
 
 ### Zero Sample Lists
-### NOTE: Make sure each sample array has as many (device) sub-arrays as there are pcpmetrics being sampled
-### NOTE: Sub-arrays are artificially sized at 4 disk devices...if you have more disk devices than 4, increase this size.
-lastSample = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], 0]
-currSample = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], 0]
+lastSample = [0] * len(gangliaMetrics["pcpmetric"])
+currSample = [0] * len(gangliaMetrics["pcpmetric"])
 
 ### Read PCP Metrics
 while(1):
@@ -42,26 +38,15 @@ while(1):
         pminfoInput.close()
         pminfoOutput.close()
 
-        if (gangliaMetrics["pcpmetric"][x].startswith("disk.")):
-            # Output Metric Data For Each Device Returned By The PCP Metric
-            deviceIndex = 2		# Skip the first two lines in the buffer
-            while(deviceIndex < len(deviceLines)):
-                result = reDiskIO.search(deviceLines[deviceIndex])
-                if(result):
-                    currSample[x][deviceIndex] = int(result.group(2))
-                    cmdExec = cmdGmetric + " --name=" + gangliaMetrics["name"][x] + "_" + \
-                            result.group(1) + " --value=" + str((currSample[x][deviceIndex] - lastSample[x][deviceIndex])) + \
-                            " --type=" + gangliaMetrics["type"][x] + " --units=\"" + gangliaMetrics["unit"][x] + "\""
-                    gmetricResult = os.system(cmdExec)
-                lastSample[x][deviceIndex] = currSample[x][deviceIndex]
-                deviceIndex = deviceIndex + 1
-        elif (gangliaMetrics["pcpmetric"][x].startswith("mem.")):
-            result = reMemStat.search(deviceLines[2])
-            if (result):
-                currSample[x] = int(result.group(1))
-                cmdExec = cmdGmetric + " --name=" + gangliaMetrics["name"][x] + " --value=" + str((currSample[x] - lastSample[x])) + \
-                                " --type=" + gangliaMetrics["type"][x] + " --units=\"" + gangliaMetrics["unit"][x] + "\""
-                gmetricResult = os.system(cmdExec)
-                lastSample[x] = currSample[x]
+	result = reSimpleStat.search(deviceLines[2])
+	if (result):
+	    currSample[x] = int(result.group(1))
+	    cmdExec = cmdGmetric + \
+			" --name=" + gangliaMetrics["name"][x] + \
+			" --value=" + str((currSample[x] - lastSample[x])) + \
+			" --type=" + gangliaMetrics["type"][x] + \
+			" --units=\"" + gangliaMetrics["unit"][x] + "\""
+	    gmetricResult = os.system(cmdExec)
+	    lastSample[x] = currSample[x]
 
     time.sleep(interval)
