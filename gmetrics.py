@@ -52,8 +52,7 @@ while(1):
                             " --type=" + gangliaMetrics["type"][x] + \
                             " --units=\"" + gangliaMetrics["unit"][x] + "\""
                 gmetricResult = os.system(cmdExec)
-            else:
-                firstread = False
 	    lastSample[x] = currSample[x]
 
     time.sleep(interval)
+    firstread = False
