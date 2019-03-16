@@ -21,7 +21,7 @@ reSimpleStat = re.compile(r'value (\d+)\n')	# RegEx To Compute Value
 ###       Each "vertical" column of the dictionary is a different metric entry group.
 gangliaMetrics = { "pcpmetric": ["disk.all.read_bytes", "disk.all.write_bytes", "mem.vmstat.pgpgin", 	"mem.vmstat.pgpgout", 	"mem.vmstat.pgfault", 		"mem.vmstat.pgmajfault", 	"mem.vmstat.pgfree"], \
 		   "name": 	["Disk\ Read\ Bytes",  	"Disk\ Write\ Bytes",   "Page\ Ins", 		"Page\ Outs", 		"Page\ Min+Maj\ Faults",	"Page\ Major\ Faults", 		"Page\ Frees"], \
-		   "unit": 	["bytes/s", 		"bytes/s", 		"Pages/s", 		"Pages/s", 		"Faults/s",			"Faults/s",			"Frees/s"], \
+		   "unit": 	["kbytes/s", 		"kbytes/s", 		"Pages/s", 		"Pages/s", 		"Faults/s",			"Faults/s",			"Frees/s"], \
 	   	   "type": 	["uint32", 		"uint32", 		"uint32", 		"uint32", 		"uint32",			"uint32",			"uint32"]}
 cmdGmetric = "/usr/bin/gmetric"
 
@@ -30,6 +30,7 @@ lastSample = [0] * len(gangliaMetrics["pcpmetric"])
 currSample = [0] * len(gangliaMetrics["pcpmetric"])
 
 ### Read PCP Metrics
+firstread = True
 while(1):
     # Interate Through Each PCP Disk IO Metric Desired
     for x in range(0, len(gangliaMetrics["pcpmetric"])):
@@ -41,12 +42,18 @@ while(1):
 	result = reSimpleStat.search(deviceLines[2])
 	if (result):
 	    currSample[x] = int(result.group(1))
-	    cmdExec = cmdGmetric + \
-			" --name=" + gangliaMetrics["name"][x] + \
-			" --value=" + str((currSample[x] - lastSample[x])) + \
-			" --type=" + gangliaMetrics["type"][x] + \
-			" --units=\"" + gangliaMetrics["unit"][x] + "\""
-	    gmetricResult = os.system(cmdExec)
+            # Skip the first time around since these metrics are absolute
+            # numbers and we want to report the diff, so we need one round to
+            # collect base stats before reporting diffs.
+            if firstread is False:
+                cmdExec = cmdGmetric + \
+                            " --name=" + gangliaMetrics["name"][x] + \
+                            " --value=" + str((currSample[x] - lastSample[x])) + \
+                            " --type=" + gangliaMetrics["type"][x] + \
+                            " --units=\"" + gangliaMetrics["unit"][x] + "\""
+                gmetricResult = os.system(cmdExec)
+            else:
+                firstread = False
 	    lastSample[x] = currSample[x]
 
     time.sleep(interval)
