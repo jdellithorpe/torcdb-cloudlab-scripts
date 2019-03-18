@@ -18,7 +18,7 @@ lastSample = [0] * len(pcpmetrics)
 currSample = [0] * len(pcpmetrics)
 
 firstread = True
-with open("abs.csv", "w") as file_abs, open("rate.csv", "w") as file_rate:
+with open("machine_stats.csv", "w") as statsfile:
     while(1):
         # Interate Through Each PCP Disk IO Metric Desired
         dateStr = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -28,15 +28,13 @@ with open("abs.csv", "w") as file_abs, open("rate.csv", "w") as file_rate:
             currSample[x] = int(deviceLines[2 + x*3][10:])
 
         if not firstread:
-            file_abs.write(dateStr + ",")
-            file_rate.write(dateStr + ",")
+            statsfile.write(dateStr + ",")
             for x in range(0, len(pcpmetrics)-1):
-                file_abs.write(str(currSample[x]) + ",") 
-                file_rate.write(str(currSample[x] - lastSample[x]) + ",") 
-            file_abs.write(str(currSample[len(pcpmetrics)-1]) + '\n') 
-            file_rate.write(str(currSample[len(pcpmetrics)-1] - lastSample[len(pcpmetrics)-1]) + '\n') 
-            file_abs.flush()
-            file_rate.flush()
+                statsfile.write(str(currSample[x]) + ",") 
+                statsfile.write(str(currSample[x] - lastSample[x]) + ",") 
+            statsfile.write(str(currSample[len(pcpmetrics)-1]) + ",") 
+            statsfile.write(str(currSample[len(pcpmetrics)-1] - lastSample[len(pcpmetrics)-1]) + '\n') 
+            statsfile.flush()
         
         for x in range(0, len(pcpmetrics)):
             lastSample[x] = currSample[x]
