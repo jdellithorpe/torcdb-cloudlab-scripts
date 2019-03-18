@@ -30,14 +30,15 @@ with open("abs.csv", "w") as file_abs, open("rate.csv", "w") as file_rate:
         if not firstread:
             file_abs.write(dateStr + ",")
             file_rate.write(dateStr + ",")
-            for x in range(0, len(pcpmetrics)):
+            for x in range(0, len(pcpmetrics)-1):
                 file_abs.write(str(currSample[x]) + ",") 
                 file_rate.write(str(currSample[x] - lastSample[x]) + ",") 
-            file_abs.write("\n")
+            file_abs.write(str(currSample[len(pcpmetrics)-1]) + '\n') 
+            file_rate.write(str(currSample[len(pcpmetrics)-1] - lastSample[len(pcpmetrics)-1]) + '\n') 
             file_abs.flush()
-            file_rate.write("\n")
             file_rate.flush()
-
-        lastSample = currSample
+        
+        for x in range(0, len(pcpmetrics)):
+            lastSample[x] = currSample[x]
         time.sleep(samplingInterval)
         firstread = False
