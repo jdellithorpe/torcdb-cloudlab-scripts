@@ -6,6 +6,9 @@ import subprocess
 
 samplingInterval = 1
 
+hostname = subprocess.check_output(['hostname', '--short'])
+hostname = hostname[0:-1]
+
 pcpmetrics = [  "disk.all.read_bytes", 
                 "disk.all.write_bytes", 
                 "mem.vmstat.pgpgin", 
@@ -28,7 +31,7 @@ with open("machine_stats.csv", "w") as statsfile:
             currSample[x] = int(deviceLines[2 + x*3][10:])
 
         if not firstread:
-            statsfile.write(dateStr + ",")
+            statsfile.write(dateStr + "," + hostname + ",")
             for x in range(0, len(pcpmetrics)-1):
                 statsfile.write(str(currSample[x]) + ",") 
                 statsfile.write(str(currSample[x] - lastSample[x]) + ",") 
