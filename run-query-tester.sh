@@ -29,13 +29,29 @@ execQuery() {
 }
 
 # Number of unique queries to execute from dataset.
-query_count=10
+query_count=1
 # Number of times to repeat each query.
-query_repeat_count=101
+query_repeat_count=10
 # The dataset from which to draw query parameters.
 dataset="ldbc_snb_sf0100"
 
-for ((i = 1; i <= 2; i++))
+for ((i = 1; i <= 14; i++))
 do
   execQuery "${i}" "${query_count}" "${query_repeat_count}" "${dataset}"
 done
+
+# For TorcDB
+#execQuery "1" "${query_count}" "1000" "${dataset}"
+#execQuery "2" "${query_count}" "1000" "${dataset}"
+#execQuery "3" "${query_count}" "10" "${dataset}"
+#execQuery "4" "${query_count}" "1000" "${dataset}"
+#execQuery "5" "${query_count}" "10" "${dataset}"
+#execQuery "6" "${query_count}" "10" "${dataset}"
+#execQuery "7" "${query_count}" "1000" "${dataset}"
+#execQuery "8" "${query_count}" "1000" "${dataset}"
+#execQuery "9" "${query_count}" "10" "${dataset}"
+#execQuery "10" "${query_count}" "150" "${dataset}"
+#execQuery "11" "${query_count}" "1000" "${dataset}"
+#execQuery "12" "${query_count}" "100" "${dataset}"
+#execQuery "13" "${query_count}" "50" "${dataset}"
+#execQuery "14" "${query_count}" "50" "${dataset}"
