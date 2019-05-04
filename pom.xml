@@ -5,14 +5,20 @@
   <artifactId>torcdb-scripts</artifactId>
   <packaging>jar</packaging>
   <version>1.0.0</version>
-  <name>TorcDB Scripts and Utilities</name>
+  <name>TorcDB/2 Scripts and Utilities</name>
   <description>
-    TorcDB scripts and utilities.
+    TorcDB/2 scripts and utilities.
   </description>
   <dependencies>
     <dependency>
       <groupId>net.ellitron.ldbcsnbimpls</groupId>
       <artifactId>snb-interactive-torc</artifactId>
+      <version>0.1.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>net.ellitron.ldbcsnbimpls</groupId>
+      <artifactId>snb-interactive-torcdb2</artifactId>
       <version>0.1.0</version>
       <type>jar</type>
     </dependency>
