@@ -21,21 +21,27 @@ execQuery() {
   count=$2
   repeat=$3
   dataset=$4
+  param_set_nr=0
   while IFS='|' read -ra args
   do 
-    eval "echo \"cmd=[query${number} ${query_argfmts[number]} --repeat ${repeat}]\""
+    (( param_set_nr++ ))
+    if (( param_set_nr < 1 ))
+    then
+      continue
+    fi
+    eval "echo \"cmd=[query${number} ${query_argfmts[number]} --repeat ${repeat}](${param_set_nr})\""
     eval "./bin/QueryTester.sh query${number} ${query_argfmts[number]} --repeat ${repeat} --timeUnits=MICROSECONDS" 2>/dev/null | grep -E "Percentile|Min|Max"
   done <<< "$(head -n $[count+1] /datasets/ldbc-snb/${dataset}/substitution_parameters/interactive_${number}_param.txt | tail -n $count)"
 }
 
 # Number of unique queries to execute from dataset.
-query_count=1
+query_count=10
 # Number of times to repeat each query.
-query_repeat_count=10
+query_repeat_count=150
 # The dataset from which to draw query parameters.
 dataset="ldbc_snb_sf0100"
 
-for ((i = 1; i <= 14; i++))
+for ((i = 2; i <= 2; i++))
 do
   execQuery "${i}" "${query_count}" "${query_repeat_count}" "${dataset}"
 done
