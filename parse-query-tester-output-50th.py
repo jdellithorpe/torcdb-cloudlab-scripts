@@ -29,6 +29,13 @@ with open(sys.argv[1], "r") as f:
     match = re.match("\s*(Min|Max|Mean|Count):\s+([0-9]*)", line)
     if match:
       querystat[match.group(1)] = match.group(2)
+      
+  if bool(querystat):
+    if queryname in data:
+      data[queryname].append(querystat)
+    else:
+      data[queryname] = [querystat]
+    querystat = {}
 
 #print data
 for queryname in data:
