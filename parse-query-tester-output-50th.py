@@ -39,11 +39,11 @@ with open(sys.argv[1], "r") as f:
 
 #print data
 for queryname in data:
-  print queryname,
+#  print queryname,
 
   with open(queryname + "-50th.csv", "w") as f:
     for querystats in data[queryname]:
-      print querystats["50"],
+#      print querystats["50"],
       f.write(querystats["50"] + "\n")
 
-    print
+#    print
