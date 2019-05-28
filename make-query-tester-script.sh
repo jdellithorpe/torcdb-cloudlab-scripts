@@ -21,10 +21,11 @@ execQuery() {
   count=$2
   repeat=$3
   dataset=$4
+  warmup_count=$5
   param_set_nr=0
   while IFS='|' read -ra args
   do 
-    if (( param_set_nr < 1 ))
+    if (( param_set_nr < warmup_count ))
     then
       eval "echo \"query${number} ${query_argfmts[number]} --warmUp 60 --repeat ${repeat} --timeUnits=MICROSECONDS\""
     else
@@ -83,36 +84,36 @@ dataset="ldbc_snb_sf0100"
 
 # TorcDB2
 # WarmUp
-execQuery "7" "1" "1" "${dataset}"
-execQuery "8" "1" "1" "${dataset}"
-execQuery "4" "1" "1" "${dataset}"
-execQuery "11" "1" "1" "${dataset}"
-execQuery "1" "1" "1" "${dataset}"
-execQuery "2" "1" "1" "${dataset}"
-execQuery "12" "1" "1" "${dataset}"
-execQuery "10" "1" "1" "${dataset}"
-execQuery "13" "1" "1" "${dataset}"
-execQuery "14" "1" "1" "${dataset}"
-execQuery "6" "1" "1" "${dataset}"
-execQuery "5" "1" "1" "${dataset}"
-execQuery "9" "1" "1" "${dataset}"
-execQuery "3" "1" "1" "${dataset}"
+execQuery "7" "1" "1" "${dataset}" "1"
+execQuery "8" "1" "1" "${dataset}" "1"
+execQuery "4" "1" "1" "${dataset}" "1"
+execQuery "11" "1" "1" "${dataset}" "1"
+execQuery "1" "1" "1" "${dataset}" "1"
+execQuery "2" "1" "1" "${dataset}" "1"
+execQuery "12" "1" "1" "${dataset}" "1"
+execQuery "10" "1" "1" "${dataset}" "1"
+execQuery "13" "1" "1" "${dataset}" "1"
+execQuery "14" "1" "1" "${dataset}" "1"
+execQuery "6" "1" "1" "${dataset}" "1"
+execQuery "5" "1" "1" "${dataset}" "1"
+execQuery "9" "1" "1" "${dataset}" "1"
+execQuery "3" "1" "1" "${dataset}" "1"
 
 # Real Set
-execQuery "7" "4486" "1" "${dataset}"
-execQuery "8" "4486" "1" "${dataset}"
-execQuery "4" "4486" "1" "${dataset}"
-execQuery "11" "4486" "1" "${dataset}"
-execQuery "1" "4486" "1" "${dataset}"
-execQuery "2" "4486" "1" "${dataset}"
-execQuery "12" "4486" "1" "${dataset}"
-execQuery "10" "4486" "1" "${dataset}"
-execQuery "13" "4486" "1" "${dataset}"
-execQuery "14" "4486" "1" "${dataset}"
-execQuery "6" "4486" "1" "${dataset}"
-execQuery "5" "200" "1" "${dataset}"
-execQuery "9" "200" "1" "${dataset}"
-execQuery "3" "200" "1" "${dataset}"
+execQuery "7" "4486" "1" "${dataset}" "0"
+execQuery "8" "4486" "1" "${dataset}" "0"
+execQuery "4" "4486" "1" "${dataset}" "0"
+execQuery "11" "4486" "1" "${dataset}" "0"
+execQuery "1" "4486" "1" "${dataset}" "0"
+execQuery "2" "4486" "1" "${dataset}" "0"
+execQuery "12" "4486" "1" "${dataset}" "0"
+execQuery "10" "4486" "1" "${dataset}" "0"
+execQuery "13" "4486" "1" "${dataset}" "0"
+execQuery "14" "4486" "1" "${dataset}" "0"
+execQuery "6" "4486" "1" "${dataset}" "0"
+execQuery "5" "200" "1" "${dataset}" "0"
+execQuery "9" "200" "1" "${dataset}" "0"
+execQuery "3" "200" "1" "${dataset}" "0"
 
 #Neo4j 
 #execQuery "7" "4486" "10" "${dataset}"
