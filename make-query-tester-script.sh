@@ -24,25 +24,22 @@ execQuery() {
   param_set_nr=0
   while IFS='|' read -ra args
   do 
-    (( param_set_nr++ ))
     if (( param_set_nr < 1 ))
-    then
-      continue
-    fi
-
-    if (( param_set_nr < 3 ))
     then
       eval "echo \"query${number} ${query_argfmts[number]} --warmUp 60 --repeat ${repeat} --timeUnits=MICROSECONDS\""
     else
       eval "echo \"query${number} ${query_argfmts[number]} --repeat ${repeat} --timeUnits=MICROSECONDS\""
     fi
-  done <<< "$(head -n $[count+1] /scratch/jdellit/datasets/ldbc-snb/${dataset}/substitution_parameters/interactive_${number}_param.txt | tail -n $count)"
+
+    (( param_set_nr++ ))
+#  done <<< "$(head -n $[count+1] /scratch/jdellit/datasets/ldbc-snb/${dataset}/substitution_parameters/interactive_${number}_param.txt | tail -n $count)"
+  done <<< "$(head -n $[count+1] /datasets/ldbc-snb/${dataset}/substitution_parameters/interactive_${number}_param.txt | tail -n $count)"
 }
 
 # Number of unique queries to execute from dataset.
-query_count=10
+#query_count=10
 # Number of times to repeat each query.
-query_repeat_count=1000
+#query_repeat_count=1000
 # The dataset from which to draw query parameters.
 dataset="ldbc_snb_sf0100"
 
@@ -85,26 +82,43 @@ dataset="ldbc_snb_sf0100"
 #execQuery "3" "${query_count}" "5" "${dataset}"
 
 # TorcDB2
-#execQuery "7" "4486" "10" "${dataset}"
-#execQuery "8" "4486" "10" "${dataset}"
-#execQuery "4" "4486" "10" "${dataset}"
-#execQuery "11" "4486" "10" "${dataset}"
-#execQuery "1" "4486" "10" "${dataset}"
-#execQuery "2" "4486" "10" "${dataset}"
-#execQuery "12" "4486" "10" "${dataset}"
-#execQuery "10" "4486" "10" "${dataset}"
-#execQuery "13" "4486" "1" "${dataset}"
-#execQuery "14" "4486" "1" "${dataset}"
-#execQuery "6" "4486" "1" "${dataset}"
-#execQuery "5" "200" "1" "${dataset}"
-#execQuery "9" "200" "1" "${dataset}"
-#execQuery "3" "200" "1" "${dataset}"
+# WarmUp
+execQuery "7" "1" "1" "${dataset}"
+execQuery "8" "1" "1" "${dataset}"
+execQuery "4" "1" "1" "${dataset}"
+execQuery "11" "1" "1" "${dataset}"
+execQuery "1" "1" "1" "${dataset}"
+execQuery "2" "1" "1" "${dataset}"
+execQuery "12" "1" "1" "${dataset}"
+execQuery "10" "1" "1" "${dataset}"
+execQuery "13" "1" "1" "${dataset}"
+execQuery "14" "1" "1" "${dataset}"
+execQuery "6" "1" "1" "${dataset}"
+execQuery "5" "1" "1" "${dataset}"
+execQuery "9" "1" "1" "${dataset}"
+execQuery "3" "1" "1" "${dataset}"
+
+# Real Set
+execQuery "7" "4486" "1" "${dataset}"
+execQuery "8" "4486" "1" "${dataset}"
+execQuery "4" "4486" "1" "${dataset}"
+execQuery "11" "4486" "1" "${dataset}"
+execQuery "1" "4486" "1" "${dataset}"
+execQuery "2" "4486" "1" "${dataset}"
+execQuery "12" "4486" "1" "${dataset}"
+execQuery "10" "4486" "1" "${dataset}"
+execQuery "13" "4486" "1" "${dataset}"
+execQuery "14" "4486" "1" "${dataset}"
+execQuery "6" "4486" "1" "${dataset}"
+execQuery "5" "200" "1" "${dataset}"
+execQuery "9" "200" "1" "${dataset}"
+execQuery "3" "200" "1" "${dataset}"
 
 #Neo4j 
 #execQuery "7" "4486" "10" "${dataset}"
 #execQuery "8" "4486" "10" "${dataset}"
-execQuery "13" "4486" "10" "${dataset}"
-execQuery "2" "4486" "10" "${dataset}"
-execQuery "11" "4486" "10" "${dataset}"
-execQuery "12" "4486" "10" "${dataset}"
-execQuery "6" "4486" "10" "${dataset}"
+#execQuery "13" "4486" "10" "${dataset}"
+#execQuery "2" "4486" "10" "${dataset}"
+#execQuery "11" "4486" "10" "${dataset}"
+#execQuery "12" "4486" "10" "${dataset}"
+#execQuery "6" "4486" "10" "${dataset}"
