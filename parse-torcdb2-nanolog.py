@@ -6,46 +6,91 @@ import json
 
 data = {}
 with open(sys.argv[1], "r") as f:
-  queryname = ""
-  queryargs = ""
-  querystat = {}
-  queryrcops = []
+  queryName = ""
+  queryOpList = []
+  queryNumber = 1
+  operationCount = 0
+  totalBytesRead = 0
+  totalObjectsRequested = 0
+  totalObjectsExist = 0
+  prevOperationCount = 0
+  prevTotalBytesRead = 0
+  prevTotalObjectsRequested = 0
+  prevTotalObjectsExist = 0
+  print("QueryName,QueryNumber,OperationCount,TotalOperationTime,TotalBytesRead,TotalObjectsRequested,TotalObjectsExist")
   for line in f:
     match = re.match(".*(Ldbc[a-z|A-Z]+[0-9]+)\s+Start", line)
     if match:
-      if bool(queryrcops):
-        if queryname in data:
-          data[queryname].append(queryrcops)
-        else:
-          data[queryname] = [queryrcops]
-        queryrcops = []
+      if bool(queryOpList):
+        prevOperationCount = operationCount
+        prevTotalBytesRead = totalBytesRead
+        prevTotalObjectsRequested = totalObjectsRequested
+        prevTotalObjectsExist = totalObjectsExist
 
-      queryname = match.group(1)
+        operationCount = len(queryOpList)
+        totalOperationTime = 0
+        totalBytesRead = 0
+        totalObjectsRequested = 0
+        totalObjectsExist = 0
+        for op in queryOpList:
+          totalOperationTime += op["elapsedTime"]
+          totalBytesRead += op["totalLen"]
+          totalObjectsRequested += op["numRequests"]
+          totalObjectsExist += op["totalOK"]
+        
+        if queryName != match.group(1) or !(operationCount == prevOperationCount and totalBytesRead ==
+            prevTotalBytesRead and totalObjectsRequested == prevTotalObjectsRequested and
+            totalObjectsExist == prevTotalObjectsExist):
+          queryNumber = 1
+        else:
+          queryNumber += 1
+      
+        print("%s,%d,%d,%d,%d,%d,%d" % (queryName, queryNumber, operationCount, totalOperationTime, totalBytesRead, totalObjectsRequested, totalObjectsExist))
+
+#        if queryName in data:
+#          data[queryName].append(queryOpList)
+#        else:
+#          data[queryName] = [queryOpList]
+#        queryOpList = []
+
+      queryName = match.group(1)
 
     match = re.match(".*({.*})", line)
     if match:
-      queryrcops.append(json.loads(match.group(1)))
+      queryOpList.append(json.loads(match.group(1)))
 
-  if queryname != "" and bool(queryrcops):
-    if queryname in data:
-      data[queryname].append(queryrcops)
+  if queryName != "" and bool(queryOpList):
+    operationCount = len(queryOpList)
+    totalOperationTime = 0
+    totalBytesRead = 0
+    totalObjectsRequested = 0
+    totalObjectsExist = 0
+    for op in queryOpList:
+      totalOperationTime += op["elapsedTime"]
+      totalBytesRead += op["totalLen"]
+      totalObjectsRequested += op["numRequests"]
+      totalObjectsExist += op["totalOK"]
+    print("%s,%d,%d,%d,%d,%d,%d" % (queryName, queryNumber, operationCount, totalOperationTime, totalBytesRead, totalObjectsRequested, totalObjectsExist))
+    
+    if queryName in data:
+      data[queryName].append(queryOpList)
     else:
-      data[queryname] = [queryrcops]
+      data[queryName] = [queryOpList]
 
-#print data
-print("queryname,totalOps,totalBytesRead,totalObjectsRequested,totalObjectsRead")
-for queryname in data:
-  with open(queryname + "-basicstats.csv", "w") as f:
-    for queryrcops in data[queryname]:
-      totalOps = len(queryrcops)
-      totalBytesRead = 0
-      totalObjectsRequested = 0
-      totalObjectsRead = 0
-      for rcop in queryrcops:
-        totalBytesRead += rcop["totalLen"]
-        totalObjectsRequested += rcop["numRequests"]
-        totalObjectsRead += rcop["totalOK"]
-      print("%s,%d,%d,%d,%d\n" % (queryname, totalOps, totalBytesRead, totalObjectsRequested, totalObjectsRead))
-      f.write("%d,%d,%d,%d\n" % (totalOps, totalBytesRead, totalObjectsRequested, totalObjectsRead))
-
-    print
+#print("QueryName,QueryNumber,OperationCount,TotalOperationTime,TotalBytesRead,TotalObjectsRequested,TotalObjectsExist")
+#for queryName in data:
+#  queryNumber = 1
+#  for queryOpList in data[queryName]:
+#    operationCount = len(queryOpList)
+#    totalOperationTime = 0
+#    totalBytesRead = 0
+#    totalObjectsRequested = 0
+#    totalObjectsExist = 0
+#    for op in queryOpList:
+#      totalOperationTime += op["elapsedTime"]
+#      totalBytesRead += op["totalLen"]
+#      totalObjectsRequested += op["numRequests"]
+#      totalObjectsExist += op["totalOK"]
+#    print("%s,%d,%d,%d,%d,%d,%d" % (queryName, queryNumber, operationCount, totalOperationTime, totalBytesRead, totalObjectsRequested, totalObjectsExist))
+#
+#    queryNumber += 1
