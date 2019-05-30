@@ -33,8 +33,8 @@ execQuery() {
     fi
 
     (( param_set_nr++ ))
-#  done <<< "$(head -n $[count+1] /scratch/jdellit/datasets/ldbc-snb/${dataset}/substitution_parameters/interactive_${number}_param.txt | tail -n $count)"
-  done <<< "$(head -n $[count+1] /datasets/ldbc-snb/${dataset}/substitution_parameters/interactive_${number}_param.txt | tail -n $count)"
+  done <<< "$(head -n $[count+1] /scratch/jdellit/datasets/ldbc-snb/${dataset}/substitution_parameters/interactive_${number}_param.txt | tail -n $count)"
+#  done <<< "$(head -n $[count+1] /datasets/ldbc-snb/${dataset}/substitution_parameters/interactive_${number}_param.txt | tail -n $count)"
 }
 
 # Number of unique queries to execute from dataset.
@@ -84,20 +84,20 @@ dataset="ldbc_snb_sf0100"
 
 # TorcDB2
 # WarmUp
-execQuery "7" "10" "0" "${dataset}" "1"
-execQuery "8" "10" "0" "${dataset}" "1"
-execQuery "4" "10" "0" "${dataset}" "1"
-execQuery "11" "10" "0" "${dataset}" "1"
-execQuery "1" "10" "0" "${dataset}" "1"
-execQuery "2" "10" "0" "${dataset}" "1"
-execQuery "12" "10" "0" "${dataset}" "1"
-execQuery "10" "10" "0" "${dataset}" "1"
-execQuery "13" "10" "0" "${dataset}" "1"
-execQuery "14" "10" "0" "${dataset}" "1"
-execQuery "6" "10" "0" "${dataset}" "1"
-execQuery "5" "10" "0" "${dataset}" "1"
-execQuery "9" "10" "0" "${dataset}" "1"
-execQuery "3" "10" "0" "${dataset}" "1"
+#execQuery "7" "10" "0" "${dataset}" "1"
+#execQuery "8" "10" "0" "${dataset}" "1"
+#execQuery "4" "10" "0" "${dataset}" "1"
+#execQuery "11" "10" "0" "${dataset}" "1"
+#execQuery "1" "10" "0" "${dataset}" "1"
+#execQuery "2" "10" "0" "${dataset}" "1"
+#execQuery "12" "10" "0" "${dataset}" "1"
+#execQuery "10" "10" "0" "${dataset}" "1"
+#execQuery "13" "10" "0" "${dataset}" "1"
+#execQuery "14" "10" "0" "${dataset}" "1"
+#execQuery "6" "10" "0" "${dataset}" "1"
+#execQuery "5" "10" "0" "${dataset}" "1"
+#execQuery "9" "10" "0" "${dataset}" "1"
+#execQuery "3" "10" "0" "${dataset}" "1"
 
 # Real Set
 # Estimated time: less than one minute
@@ -123,38 +123,43 @@ execQuery "3" "10" "0" "${dataset}" "1"
 
 # Real set in reverse
 # Each of these below is calibrated to take ~2 hours for a total of 18 hours.
-execQuery "3" "175" "1" "${dataset}" "0" # Mean: 41.3 s // 10x1
-execQuery "5" "250" "1" "${dataset}" "0" # Mean: 29.1 s // 20x1
-execQuery "9" "250" "1" "${dataset}" "0" # Mean: 27.9 s // 10x1
-execQuery "14" "700" "1" "${dataset}" "0" # Mean: 10.4 s // 621x1
-execQuery "13" "750" "1" "${dataset}" "0" # Mean: 9.5 s // 4486x1
-execQuery "6" "1750" "1" "${dataset}" "0" # Mean: 4.1 s // 100x1
-execQuery "10" "4486" "5" "${dataset}" "0" # Mean: 292 ms // 4486x1
-execQuery "1" "4486" "8" "${dataset}" "0" # Mean: 197 ms // 4486x1
-execQuery "12" "4486" "10" "${dataset}" "0" # Mean: 146 ms // 4486x1
-# Estimated time: 86 minutes
-execQuery "2" "4486" "10" "${dataset}" "0" # Mean: 116 ms // 4486x1
-# Estimated time: 21 minutes
-execQuery "11" "4486" "10" "${dataset}" "0" # Mean: 28 ms // 4486x1
-# Estimated time: 21 minutes
-execQuery "4" "4486" "10" "${dataset}" "0" # Mean: 29 ms // 4486x1
-# Estimated time: less than one minute
-execQuery "8" "4486" "10" "${dataset}" "0" # Mean: 355 us // 4486x1
-# Estimated time: less than one minute
-execQuery "7" "4486" "10" "${dataset}" "0" # Mean: 256 us // 4486x1
+#execQuery "3" "175" "1" "${dataset}" "0" # Mean: 41.3 s // 10x1
+#execQuery "5" "250" "1" "${dataset}" "0" # Mean: 29.1 s // 20x1
+#execQuery "9" "250" "1" "${dataset}" "0" # Mean: 27.9 s // 10x1
+#execQuery "14" "700" "1" "${dataset}" "0" # Mean: 10.4 s // 621x1
+#execQuery "13" "750" "1" "${dataset}" "0" # Mean: 9.5 s // 4486x1
+#execQuery "6" "1750" "1" "${dataset}" "0" # Mean: 4.1 s // 100x1
+#execQuery "10" "4486" "5" "${dataset}" "0" # Mean: 292 ms // 4486x1
+#execQuery "1" "4486" "8" "${dataset}" "0" # Mean: 197 ms // 4486x1
+#execQuery "12" "4486" "10" "${dataset}" "0" # Mean: 146 ms // 4486x1
+## Estimated time: 86 minutes
+#execQuery "2" "4486" "10" "${dataset}" "0" # Mean: 116 ms // 4486x1
+## Estimated time: 21 minutes
+#execQuery "11" "4486" "10" "${dataset}" "0" # Mean: 28 ms // 4486x1
+## Estimated time: 21 minutes
+#execQuery "4" "4486" "10" "${dataset}" "0" # Mean: 29 ms // 4486x1
+## Estimated time: less than one minute
+#execQuery "8" "4486" "10" "${dataset}" "0" # Mean: 355 us // 4486x1
+## Estimated time: less than one minute
+#execQuery "7" "4486" "10" "${dataset}" "0" # Mean: 256 us // 4486x1
 
 #Neo4j 
-#execQuery "7" "4486" "1" "${dataset}"
-#execQuery "8" "4486" "1" "${dataset}"
-#execQuery "13" "4486" "1" "${dataset}"
-#execQuery "2" "4486" "1" "${dataset}"
-#execQuery "11" "4486" "1" "${dataset}"
-#execQuery "12" "4486" "1" "${dataset}"
-#execQuery "14" "4486" "1" "${dataset}"
-#execQuery "10" "200" "1" "${dataset}"
-#execQuery "1" "200" "1" "${dataset}"
-#execQuery "5" "200" "1" "${dataset}"
-#execQuery "9" "100" "1" "${dataset}"
-#execQuery "3" "100" "1" "${dataset}"
-#execQuery "6" "100" "1" "${dataset}"
-#execQuery "4" "100" "1" "${dataset}"
+# Estimated time: less than one minute
+execQuery "8" "4486" "10" "${dataset}" "0" # Mean: 384 us // 4486x10
+# Estimated time: less than one minute
+execQuery "7" "4486" "10" "${dataset}" "0" # Mean: 598 us // 4486x10
+# Estimated time: less than one minute
+execQuery "13" "4486" "10" "${dataset}" "0" # Mean: 7.7 ms // 4486x1
+# Estimated time: 9 minutes
+execQuery "11" "4486" "10" "${dataset}" "0" # Mean: 119 ms // 4486x1
+# Each of these below is calibrated to take ~2 hours for a total of 20 hours.
+execQuery "2" "4486" "6" "${dataset}" "0" # Mean: 241 ms // 4486x1
+execQuery "12" "4486" "4" "${dataset}" "0" # Mean: 364 ms // 4486x1
+execQuery "10" "1900" "1" "${dataset}" "0" # Mean: 3.8 s // 10x1
+execQuery "1" "1700" "1" "${dataset}" "0" # Mean: 4.2 s // 10x1
+execQuery "5" "120" "1" "${dataset}" "0" # Mean: 61.4 s // 10x1
+execQuery "9" "120" "1" "${dataset}" "0" # Mean: 1.9 m // 10x1
+execQuery "3" "120" "1" "${dataset}" "0" # Mean: 4 m // 8x1
+execQuery "4" "120" "1" "${dataset}" "0" # Mean: 8.2 m // 64x1
+execQuery "14" "120" "1" "${dataset}" "0" # Mean: 43 m // 67x1
+execQuery "6" "120" "1" "${dataset}" "0" # Mean: MAXED OUT // 10x1
