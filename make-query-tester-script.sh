@@ -84,36 +84,64 @@ dataset="ldbc_snb_sf0100"
 
 # TorcDB2
 # WarmUp
-execQuery "7" "1" "0" "${dataset}" "1"
-execQuery "8" "1" "0" "${dataset}" "1"
-execQuery "4" "1" "0" "${dataset}" "1"
-execQuery "11" "1" "0" "${dataset}" "1"
-execQuery "1" "1" "0" "${dataset}" "1"
-execQuery "2" "1" "0" "${dataset}" "1"
-execQuery "12" "1" "0" "${dataset}" "1"
-execQuery "10" "1" "0" "${dataset}" "1"
-execQuery "13" "1" "0" "${dataset}" "1"
-execQuery "14" "1" "0" "${dataset}" "1"
-execQuery "6" "1" "0" "${dataset}" "1"
-execQuery "5" "1" "0" "${dataset}" "1"
-execQuery "9" "1" "0" "${dataset}" "1"
-execQuery "3" "1" "0" "${dataset}" "1"
+execQuery "7" "10" "0" "${dataset}" "1"
+execQuery "8" "10" "0" "${dataset}" "1"
+execQuery "4" "10" "0" "${dataset}" "1"
+execQuery "11" "10" "0" "${dataset}" "1"
+execQuery "1" "10" "0" "${dataset}" "1"
+execQuery "2" "10" "0" "${dataset}" "1"
+execQuery "12" "10" "0" "${dataset}" "1"
+execQuery "10" "10" "0" "${dataset}" "1"
+execQuery "13" "10" "0" "${dataset}" "1"
+execQuery "14" "10" "0" "${dataset}" "1"
+execQuery "6" "10" "0" "${dataset}" "1"
+execQuery "5" "10" "0" "${dataset}" "1"
+execQuery "9" "10" "0" "${dataset}" "1"
+execQuery "3" "10" "0" "${dataset}" "1"
 
 # Real Set
-execQuery "7" "4486" "1" "${dataset}" "0"
-execQuery "8" "4486" "1" "${dataset}" "0"
-execQuery "4" "4486" "1" "${dataset}" "0"
-execQuery "11" "4486" "1" "${dataset}" "0"
-execQuery "1" "4486" "1" "${dataset}" "0"
-execQuery "2" "4486" "1" "${dataset}" "0"
-execQuery "12" "4486" "1" "${dataset}" "0"
-execQuery "10" "4486" "1" "${dataset}" "0"
-execQuery "13" "4486" "1" "${dataset}" "0"
-execQuery "14" "360" "1" "${dataset}" "0"
-execQuery "6" "100" "1" "${dataset}" "0"
-execQuery "5" "20" "1" "${dataset}" "0"
-execQuery "9" "10" "1" "${dataset}" "0"
-execQuery "3" "10" "1" "${dataset}" "0"
+# Estimated time: less than one minute
+#execQuery "7" "4486" "10" "${dataset}" "0" # Mean: 256 us // 4486x1
+## Estimated time: less than one minute
+#execQuery "8" "4486" "10" "${dataset}" "0" # Mean: 355 us // 4486x1
+## Estimated time: 21 minutes
+#execQuery "4" "4486" "10" "${dataset}" "0" # Mean: 29 ms // 4486x1
+## Estimated time: 21 minutes
+#execQuery "11" "4486" "10" "${dataset}" "0" # Mean: 28 ms // 4486x1
+## Estimated time: 86 minutes
+#execQuery "2" "4486" "10" "${dataset}" "0" # Mean: 116 ms // 4486x1
+## Each of these below is calibrated to take ~2 hours for a total of 18 hours.
+#execQuery "12" "4486" "10" "${dataset}" "0" # Mean: 146 ms // 4486x1
+#execQuery "1" "4486" "8" "${dataset}" "0" # Mean: 197 ms // 4486x1
+#execQuery "10" "4486" "5" "${dataset}" "0" # Mean: 292 ms // 4486x1
+#execQuery "6" "1750" "1" "${dataset}" "0" # Mean: 4.1 s // 100x1
+#execQuery "13" "750" "1" "${dataset}" "0" # Mean: 9.5 s // 4486x1
+#execQuery "14" "700" "1" "${dataset}" "0" # Mean: 10.4 s // 621x1
+#execQuery "9" "250" "1" "${dataset}" "0" # Mean: 27.9 s // 10x1
+#execQuery "5" "250" "1" "${dataset}" "0" # Mean: 29.1 s // 20x1
+#execQuery "3" "175" "1" "${dataset}" "0" # Mean: 41.3 s // 10x1
+
+# Real set in reverse
+# Each of these below is calibrated to take ~2 hours for a total of 18 hours.
+execQuery "3" "175" "1" "${dataset}" "0" # Mean: 41.3 s // 10x1
+execQuery "5" "250" "1" "${dataset}" "0" # Mean: 29.1 s // 20x1
+execQuery "9" "250" "1" "${dataset}" "0" # Mean: 27.9 s // 10x1
+execQuery "14" "700" "1" "${dataset}" "0" # Mean: 10.4 s // 621x1
+execQuery "13" "750" "1" "${dataset}" "0" # Mean: 9.5 s // 4486x1
+execQuery "6" "1750" "1" "${dataset}" "0" # Mean: 4.1 s // 100x1
+execQuery "10" "4486" "5" "${dataset}" "0" # Mean: 292 ms // 4486x1
+execQuery "1" "4486" "8" "${dataset}" "0" # Mean: 197 ms // 4486x1
+execQuery "12" "4486" "10" "${dataset}" "0" # Mean: 146 ms // 4486x1
+# Estimated time: 86 minutes
+execQuery "2" "4486" "10" "${dataset}" "0" # Mean: 116 ms // 4486x1
+# Estimated time: 21 minutes
+execQuery "11" "4486" "10" "${dataset}" "0" # Mean: 28 ms // 4486x1
+# Estimated time: 21 minutes
+execQuery "4" "4486" "10" "${dataset}" "0" # Mean: 29 ms // 4486x1
+# Estimated time: less than one minute
+execQuery "8" "4486" "10" "${dataset}" "0" # Mean: 355 us // 4486x1
+# Estimated time: less than one minute
+execQuery "7" "4486" "10" "${dataset}" "0" # Mean: 256 us // 4486x1
 
 #Neo4j 
 #execQuery "7" "4486" "1" "${dataset}"
