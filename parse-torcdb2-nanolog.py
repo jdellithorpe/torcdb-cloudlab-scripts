@@ -38,7 +38,7 @@ with open(sys.argv[1], "r") as f:
           totalObjectsRequested += op["numRequests"]
           totalObjectsExist += op["totalOK"]
         
-        if queryName != match.group(1) or !(operationCount == prevOperationCount and totalBytesRead ==
+        if not (operationCount == prevOperationCount and totalBytesRead ==
             prevTotalBytesRead and totalObjectsRequested == prevTotalObjectsRequested and
             totalObjectsExist == prevTotalObjectsExist):
           queryNumber = 1
@@ -51,8 +51,8 @@ with open(sys.argv[1], "r") as f:
 #          data[queryName].append(queryOpList)
 #        else:
 #          data[queryName] = [queryOpList]
-#        queryOpList = []
 
+      queryOpList = []
       queryName = match.group(1)
 
     match = re.match(".*({.*})", line)
@@ -60,6 +60,11 @@ with open(sys.argv[1], "r") as f:
       queryOpList.append(json.loads(match.group(1)))
 
   if queryName != "" and bool(queryOpList):
+    prevOperationCount = operationCount
+    prevTotalBytesRead = totalBytesRead
+    prevTotalObjectsRequested = totalObjectsRequested
+    prevTotalObjectsExist = totalObjectsExist
+
     operationCount = len(queryOpList)
     totalOperationTime = 0
     totalBytesRead = 0
@@ -70,12 +75,20 @@ with open(sys.argv[1], "r") as f:
       totalBytesRead += op["totalLen"]
       totalObjectsRequested += op["numRequests"]
       totalObjectsExist += op["totalOK"]
+    
+    if not (operationCount == prevOperationCount and totalBytesRead ==
+        prevTotalBytesRead and totalObjectsRequested == prevTotalObjectsRequested and
+        totalObjectsExist == prevTotalObjectsExist):
+      queryNumber = 1
+    else:
+      queryNumber += 1
+    
     print("%s,%d,%d,%d,%d,%d,%d" % (queryName, queryNumber, operationCount, totalOperationTime, totalBytesRead, totalObjectsRequested, totalObjectsExist))
     
-    if queryName in data:
-      data[queryName].append(queryOpList)
-    else:
-      data[queryName] = [queryOpList]
+#    if queryName in data:
+#      data[queryName].append(queryOpList)
+#    else:
+#      data[queryName] = [queryOpList]
 
 #print("QueryName,QueryNumber,OperationCount,TotalOperationTime,TotalBytesRead,TotalObjectsRequested,TotalObjectsExist")
 #for queryName in data:
