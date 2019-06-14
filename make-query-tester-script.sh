@@ -123,26 +123,26 @@ dataset="ldbc_snb_sf0100"
 
 # Real set in reverse
 # Each of these below is calibrated to take ~2 hours for a total of 18 hours.
-execQuery "3" "175" "1" "${dataset}" "0" # Mean: 36.6 s // 175x1
-execQuery "5" "250" "1" "${dataset}" "0" # Mean: 29.7 s // 250x1
-execQuery "9" "250" "1" "${dataset}" "0" # Mean: 26.0 s // 250x1
-execQuery "14" "700" "1" "${dataset}" "0" # Mean: 10.3 s // 700x1
-execQuery "6" "1750" "1" "${dataset}" "0" # Mean: 3.9 s // 1750x1
-execQuery "10" "4486" "5" "${dataset}" "0" # Mean: 289 ms // 4486x5
-execQuery "1" "4486" "8" "${dataset}" "0" # Mean: 195 ms // 4486x8
-execQuery "12" "4486" "10" "${dataset}" "0" # Mean: 141 ms // 4486x10
-# Estimated time: 86 minutes
-execQuery "2" "4486" "10" "${dataset}" "0" # Mean: 115 ms // 4486x10
-# Estimated time: ???
-execQuery "13" "4486" "10" "${dataset}" "0" # Mean: ??? s // 4486x10
-# Estimated time: 21 minutes
-execQuery "11" "4486" "10" "${dataset}" "0" # Mean: 28 ms // 4486x10
-# Estimated time: 21 minutes
-execQuery "4" "4486" "10" "${dataset}" "0" # Mean: 28 ms // 4486x10
-# Estimated time: less than one minute
-execQuery "8" "4486" "10" "${dataset}" "0" # Mean: 249 us // 4486x10
-# Estimated time: less than one minute
-execQuery "7" "4486" "10" "${dataset}" "0" # Mean: 194 us // 4486x10
+#execQuery "3" "175" "1" "${dataset}" "0" # Mean: 36.6 s // 175x1
+#execQuery "5" "250" "1" "${dataset}" "0" # Mean: 29.7 s // 250x1
+#execQuery "9" "250" "1" "${dataset}" "0" # Mean: 26.0 s // 250x1
+#execQuery "14" "700" "1" "${dataset}" "0" # Mean: 10.3 s // 700x1
+#execQuery "6" "1750" "1" "${dataset}" "0" # Mean: 3.9 s // 1750x1
+#execQuery "10" "4486" "5" "${dataset}" "0" # Mean: 289 ms // 4486x5
+#execQuery "1" "4486" "8" "${dataset}" "0" # Mean: 195 ms // 4486x8
+#execQuery "12" "4486" "10" "${dataset}" "0" # Mean: 141 ms // 4486x10
+## Estimated time: 86 minutes
+#execQuery "2" "4486" "10" "${dataset}" "0" # Mean: 115 ms // 4486x10
+## Estimated time: ???
+#execQuery "13" "4486" "10" "${dataset}" "0" # Mean: ??? s // 4486x10
+## Estimated time: 21 minutes
+#execQuery "11" "4486" "10" "${dataset}" "0" # Mean: 28 ms // 4486x10
+## Estimated time: 21 minutes
+#execQuery "4" "4486" "10" "${dataset}" "0" # Mean: 28 ms // 4486x10
+## Estimated time: less than one minute
+#execQuery "8" "4486" "10" "${dataset}" "0" # Mean: 249 us // 4486x10
+## Estimated time: less than one minute
+#execQuery "7" "4486" "10" "${dataset}" "0" # Mean: 194 us // 4486x10
 
 #Neo4j 
 # Estimated time: less than one minute
@@ -164,3 +164,52 @@ execQuery "7" "4486" "10" "${dataset}" "0" # Mean: 194 us // 4486x10
 #execQuery "4" "120" "1" "${dataset}" "0" # Mean: 8.2 m // 64x1
 #execQuery "14" "120" "1" "${dataset}" "0" # Mean: 43 m // 67x1
 #execQuery "6" "120" "1" "${dataset}" "0" # Mean: MAXED OUT // 10x1
+
+# For gathering results for validation on each dataset
+dataset="ldbc_snb_sf0001"
+execQuery "1"  "98" "1" "${dataset}" "0"
+execQuery "2"  "98" "1" "${dataset}" "0"
+execQuery "3"  "98" "1" "${dataset}" "0"
+execQuery "4"  "98" "1" "${dataset}" "0"
+execQuery "5"  "98" "1" "${dataset}" "0"
+execQuery "6"  "98" "1" "${dataset}" "0"
+execQuery "7"  "98" "1" "${dataset}" "0"
+execQuery "8"  "98" "1" "${dataset}" "0"
+execQuery "9"  "98" "1" "${dataset}" "0"
+execQuery "10" "98" "1" "${dataset}" "0"
+execQuery "11" "98" "1" "${dataset}" "0"
+execQuery "12" "98" "1" "${dataset}" "0"
+execQuery "13" "98" "1" "${dataset}" "0"
+execQuery "14" "98" "1" "${dataset}" "0"
+
+#dataset="ldbc_snb_sf0010"
+#execQuery "1"  "656" "1" "${dataset}" "0"
+#execQuery "2"  "656" "1" "${dataset}" "0"
+#execQuery "3"  "656" "1" "${dataset}" "0"
+#execQuery "4"  "656" "1" "${dataset}" "0"
+#execQuery "5"  "656" "1" "${dataset}" "0"
+#execQuery "6"  "656" "1" "${dataset}" "0"
+#execQuery "7"  "656" "1" "${dataset}" "0"
+#execQuery "8"  "656" "1" "${dataset}" "0"
+#execQuery "9"  "656" "1" "${dataset}" "0"
+#execQuery "10" "656" "1" "${dataset}" "0"
+#execQuery "11" "656" "1" "${dataset}" "0"
+#execQuery "12" "656" "1" "${dataset}" "0"
+#execQuery "13" "656" "1" "${dataset}" "0"
+#execQuery "14" "656" "1" "${dataset}" "0"
+
+#dataset="ldbc_snb_sf0100"
+#execQuery "1"  "4486" "1" "${dataset}" "0"
+#execQuery "2"  "4486" "1" "${dataset}" "0"
+#execQuery "3"  "4486" "1" "${dataset}" "0"
+#execQuery "4"  "4486" "1" "${dataset}" "0"
+#execQuery "5"  "4486" "1" "${dataset}" "0"
+#execQuery "6"  "4486" "1" "${dataset}" "0"
+#execQuery "7"  "4486" "1" "${dataset}" "0"
+#execQuery "8"  "4486" "1" "${dataset}" "0"
+#execQuery "9"  "4486" "1" "${dataset}" "0"
+#execQuery "10" "4486" "1" "${dataset}" "0"
+#execQuery "11" "4486" "1" "${dataset}" "0"
+#execQuery "12" "4486" "1" "${dataset}" "0"
+#execQuery "13" "4486" "1" "${dataset}" "0"
+#execQuery "14" "4486" "1" "${dataset}" "0"
