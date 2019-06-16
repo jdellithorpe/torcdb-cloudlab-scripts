@@ -9,7 +9,7 @@ with open(sys.argv[1], "r") as f:
   queryargs = ""
   querystat = {}
   for line in f:
-    match = re.match("^cmd=\[(query[0-9]*) (.*)\]", line)
+    match = re.match("^cmd=\[(?:short)(query[0-9]*) (.*)\]", line)
     if match:
       if bool(querystat):
         if queryname in data:
