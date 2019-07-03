@@ -11,13 +11,15 @@ with open(sys.argv[1], "r") as f:
   queryNumber = 1
   operationCount = 0
   totalBytesRead = 0
+  totalEdgeBytesRead = 0
+  totalPropertiesBytesRead = 0
   totalObjectsRequested = 0
   totalObjectsExist = 0
   prevOperationCount = 0
   prevTotalBytesRead = 0
   prevTotalObjectsRequested = 0
   prevTotalObjectsExist = 0
-  print("QueryName,QueryNumber,OperationCount,TotalOperationTime,TotalMultiReadEdgeListsTime,TotalMultiReadPropertiesTime,TotalBytesRead,TotalObjectsRequested,TotalObjectsExist")
+  print("QueryName,QueryNumber,OperationCount,TotalOperationTime,TotalMultiReadEdgeListsTime,TotalMultiReadPropertiesTime,TotalBytesRead,TotalEdgeBytesRead,TotalPropertiesBytesRead,TotalObjectsRequested,TotalObjectsExist")
   for line in f:
     match = re.match(".*(Ldbc[a-z|A-Z]+[0-9]+)\s+Start", line)
     if match:
@@ -32,6 +34,8 @@ with open(sys.argv[1], "r") as f:
         totalMultiReadEdgeListTime = 0
         totalMultiReadPropertiesTime = 0
         totalBytesRead = 0
+        totalEdgeBytesRead = 0
+        totalPropertiesBytesRead = 0
         totalObjectsRequested = 0
         totalObjectsExist = 0
         for op in queryOpList:
@@ -39,8 +43,10 @@ with open(sys.argv[1], "r") as f:
 
           if op["type"] == "multiread_edgelist":
             totalMultiReadEdgeListTime += op["elapsedTime"]
+            totalEdgeBytesRead += op["totalLen"]
           elif op["type"] == "multiread_properties":
             totalMultiReadPropertiesTime += op["elapsedTime"]
+            totalPropertiesBytesRead += op["totalLen"]
           
           totalBytesRead += op["totalLen"]
           totalObjectsRequested += op["numRequests"]
@@ -53,7 +59,7 @@ with open(sys.argv[1], "r") as f:
         else:
           queryNumber += 1
       
-        print("%s,%d,%d,%d,%d,%d,%d,%d,%d" % (queryName, queryNumber, operationCount, totalOperationTime, totalMultiReadEdgeListTime, totalMultiReadPropertiesTime, totalBytesRead, totalObjectsRequested, totalObjectsExist))
+        print("%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d" % (queryName, queryNumber, operationCount, totalOperationTime, totalMultiReadEdgeListTime, totalMultiReadPropertiesTime, totalBytesRead, totalEdgeBytesRead, totalPropertiesBytesRead, totalObjectsRequested, totalObjectsExist))
 
 #        if queryName in data:
 #          data[queryName].append(queryOpList)
@@ -78,6 +84,8 @@ with open(sys.argv[1], "r") as f:
     totalMultiReadEdgeListTime = 0
     totalMultiReadPropertiesTime = 0
     totalBytesRead = 0
+    totalEdgeBytesRead = 0
+    totalPropertiesBytesRead = 0
     totalObjectsRequested = 0
     totalObjectsExist = 0
     for op in queryOpList:
@@ -85,8 +93,10 @@ with open(sys.argv[1], "r") as f:
           
       if op["type"] == "multiread_edgelist":
         totalMultiReadEdgeListTime += op["elapsedTime"]
+        totalEdgeBytesRead += op["totalLen"]
       elif op["type"] == "multiread_properties":
         totalMultiReadPropertiesTime += op["elapsedTime"]
+        totalPropertiesBytesRead += op["totalLen"]
           
       totalBytesRead += op["totalLen"]
       totalObjectsRequested += op["numRequests"]
@@ -99,7 +109,7 @@ with open(sys.argv[1], "r") as f:
     else:
       queryNumber += 1
     
-    print("%s,%d,%d,%d,%d,%d,%d,%d,%d" % (queryName, queryNumber, operationCount, totalOperationTime, totalMultiReadEdgeListTime, totalMultiReadPropertiesTime, totalBytesRead, totalObjectsRequested, totalObjectsExist))
+    print("%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d" % (queryName, queryNumber, operationCount, totalOperationTime, totalMultiReadEdgeListTime, totalMultiReadPropertiesTime, totalBytesRead, totalEdgeBytesRead, totalPropertiesBytesRead, totalObjectsRequested, totalObjectsExist))
     
 #    if queryName in data:
 #      data[queryName].append(queryOpList)
